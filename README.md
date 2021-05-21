@@ -18,18 +18,23 @@ Démarrer `ng serve` pour avoir accès au serveur de développement. Rendez-vous
 --------------------------------------------------------------------------------------------------------------------
 For the Back-end
 
+run "server" afin de lance le serveur du back-end qui sera par defaut lancer via nodemon. Attention a bien installer toutes les dépendances de node.
 
 
-Package explain bla bla bla
-
-
-
-
+package node 
+------------
+nodemon
+express
+mongoose ( pour la db)
+mongoose-unique-validator (db email check for a unique one)
+bcrypt (for password safety)
+jsonwebtoken (for token use)
+multer (for file storage middleware)
 
 
 
 Notice API
-
+----------
 
 
 
