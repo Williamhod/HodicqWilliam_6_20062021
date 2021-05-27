@@ -30,6 +30,7 @@ mongoose-unique-validator (db email check for a unique one)
 bcrypt (for password safety)
 jsonwebtoken (for token use)
 multer (for file storage middleware)
+path (acces file by path/way)
 
 
 
