@@ -37,6 +37,10 @@ mongoose.connect('mongodb+srv://williamhod:MongoDBPassWord33@cluster0.opybw.mong
 const app = express();
 
 
+/***********************
+ **  Header - Setup    *
+ **********************/
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"); // * tout le monde à l'accès à notre api
   res.setHeader(
@@ -52,6 +56,9 @@ app.use((req, res, next) => {
   next();
 });
 
+/********************
+ **    App- Use     *
+ *******************/
 
 app.use(express.json());
 
@@ -63,7 +70,9 @@ app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
 
-
+/********************
+ **Export on server *
+ *******************/
 
 // Export de l'application express pour déclaration dans server.js
 module.exports = app;

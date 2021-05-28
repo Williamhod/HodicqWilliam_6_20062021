@@ -7,18 +7,19 @@ const router = express.Router();
 const multer = require('../middleware/multer-config');
 const auth = require('../middleware/auth');
 const saucesCtrl = require('../controllers/sauces');
+const sharp = require('../middleware/sharp-config');
 
 /**Capture et enregistre l'image, analyse la sauce en utilisant une chaîne de caractères et l'enregistre dans la base de données,
  *  en définissant correctement son image URL. Remet les sauces aimées et celles détestées à 0, et les sauces usersliked et
  * celles usersdisliked aux tableaux vides.
  */
-router.post('/', auth, multer, saucesCtrl.createASauce);
+router.post('/', auth, multer,sharp, saucesCtrl.createASauce);
 
 /** Met à jour la sauce avec l'identifiant fourni.
  *  Si une image est téléchargée, capturez-la et mettez à jour l'imageURL des sauces.
  *  Si aucun fichier n'est fourni, les détails de la sauce figurent directement dans le corps de la demande(req.body.name,req.body.heat etc).
  *  Si un fichier est fourni, la sauce avec chaîne est en req.body.sauce.*/
-router.put('/:id', auth, multer, saucesCtrl.modifySauce);
+router.put('/:id', auth, multer,sharp, saucesCtrl.modifySauce);
 
 /** Supprime la sauce avec l'ID fourni. */
 router.delete('/:id', auth, saucesCtrl.removeSauce);
