@@ -14,6 +14,11 @@ const multer = require('multer');
 //use for file way (path)
 const path = require('path');
 
+// use to protect some http request,headers safety, sniffing, clickjacking... https://www.npmjs.com/package/helmet
+const helmet = require("helmet");
+
+// Limite nomber of request per IP
+const rateLimit = require('./middleware/expressRateLimit-config')
 
 
 /****************************
@@ -28,11 +33,13 @@ const sauceRoutes = require('./routes/sauce');
  **  DB - Connexion    *
  **********************/
 
-mongoose.connect('mongodb+srv://williamhod:MongoDBPassWord33@cluster0.opybw.mongodb.net/soPekockoDB?retryWrites=true&w=majority',
-  { useNewUrlParser: true,
-    useUnifiedTopology: true })
+mongoose.connect(
+  process.env.DATABASE_ADMIN,
+  {useNewUrlParser: true, useUnifiedTopology:true}
+)
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
+
 
 const app = express();
 
@@ -42,17 +49,15 @@ const app = express();
  **********************/
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*"); // * tout le monde à l'accès à notre api
+  res.setHeader(`Access-Control-Allow-Origin`, process.env.HOST); // Only our website have headers access
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
   );
-  //ajouter les headers mentionnés aux requêtes envoyées vers notre api
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
-  //envoyés des requetes avec les methodes mentionnées (post , get etc)
   next();
 });
 
@@ -64,10 +69,14 @@ app.use(express.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+app.use(helmet());
 
-app.use('/api/sauces', sauceRoutes);
+/********************
+ **App-Use - API    *
+ *******************/
+app.use('/api/sauces',rateLimit, sauceRoutes);
 
-app.use('/api/auth', userRoutes);
+app.use('/api/auth',rateLimit, userRoutes);
 
 
 /********************

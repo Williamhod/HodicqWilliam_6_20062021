@@ -42,10 +42,10 @@ exports.login = (req, res, next) => {
               userId: user._id,
               token: jwt.sign(
                 { userId: user._id },
-                'RANDOM_TOKEN_SECRET',
+                process.env.SECRET_TOKEN,
                 //chaine de caractère ici très simple mais ne pro qui sera bien plus longue et complexe
-                { expiresIn: '24h' }
-                //le token n'est valable que durant 24h
+                { expiresIn: '4h' }
+                //le token n'est valable que durant 4h
               )
               /* 
               *cette solution de token permet comme pour la creation de nouveau objet , 

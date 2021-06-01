@@ -1,3 +1,6 @@
+require('dotenv').config();
+//for env variable to keep our secrets safe =) 
+
 const http = require('http');
 //we use https to improve the security level of this application 
 
@@ -19,8 +22,8 @@ const normalizePort = val => {
 };
 
 
-//we add port 3000 as a default one if environnement don't add it
-const port = normalizePort(process.env.PORT || '3000');
+//we add port Port (in variable env) as a default one if environnement don't add it
+const port = normalizePort(process.env.PORT || process.env.PORT);
 app.set('port', port);
 
 
