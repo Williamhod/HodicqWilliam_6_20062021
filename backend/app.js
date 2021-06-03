@@ -18,7 +18,10 @@ const path = require('path');
 const helmet = require("helmet");
 
 // Limite nomber of request per IP
-const rateLimit = require('./middleware/expressRateLimit-config')
+const rateLimit = require('./middleware/expressRateLimit-config');
+
+// don't keep cache do get all update of the back end
+const nocache = require('nocache');
 
 
 /****************************
@@ -70,6 +73,8 @@ app.use(express.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(helmet());
+
+app.use(nocache());
 
 /********************
  **App-Use - API    *
