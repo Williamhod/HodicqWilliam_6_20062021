@@ -6,11 +6,14 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/User')
 
+//crypto js pour cacher l'adresse email 
+const mailCryptor = require('../middleware/cryptojs');
+
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
       .then(hash => {
         const user = new User({
-          email: req.body.email,
+          email: mailCryptor(req.body.email),
           password: hash
         });
         user.save()
@@ -28,7 +31,7 @@ exports.signup = (req, res, next) => {
 */
 
 exports.login = (req, res, next) => {
-    User.findOne({ email: req.body.email })
+    User.findOne({ email: mailCryptor(req.body.email) })
       .then(user => {
         if (!user) {
           return res.status(401).json({ error: 'Utilisateur non trouvé !' });
